@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="asset/bootstrap-treeview.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div id="selectTree" class="col-md-6"></div>
+            <div id="selected" class="col-md-6"></div>
+        </div>
+        <div>
+            <select id="selectTree2" multiple="multiple">
+                <option value="1" data-pid="0" selected="selected">Node1</option>
+                <option value="2" data-pid="0">Node2</option>
+                <option value="3" data-pid="0">Node3</option>
+                <option value="4" data-pid="1" selected="selected">Node11</option>
+                <option value="5" data-pid="1" selected="selected">Node12</option>
+                <option value="6" data-pid="1" selected="selected">Node13</option>
+                <option value="7" data-pid="2">Node21</option>
+                <option value="8" data-pid="2">Node22</option>
+                <option value="9" data-pid="4" selected="selected">Node111</option>
+                <option value="10" data-pid="4" selected="selected">Node112</option>
+            </select>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="asset/bootstrap-treeview.min.js"></script>
+    <script src="jquery.treeSelect.js"></script>
+    <script>
+    $(function() {
+        $('#selectTree').treeSelect({
+            data: data,
+            onCheckChange: function(nodes, $tree, $container) {
+                var $selected = $('#selected');
+                $selected.empty();
+                $(nodes).each(function(i, v) {
+                    $selected.append('<div class="item">' + v.text + '</div>')
+                });
+            }
+        });
+        $('#selectTree2').treeSelect();
+    });
+    var data = [
+        { id: 1, text: 'Node1', pid: 0, checked: true },
+        { id: 2, text: 'Node2', pid: 0 },
+        { id: 3, text: 'Node3', pid: 0 },
+        { id: 4, text: 'Node11', pid: 1, checked: true },
+        { id: 5, text: 'Node12', pid: 1, checked: true },
+        { id: 6, text: 'Node13', pid: 1, checked: true },
+        { id: 7, text: 'Node21', pid: 2 },
+        { id: 8, text: 'Node22', pid: 2 },
+        { id: 9, text: 'Node111', pid: 4, checked: true },
+        { id: 10, text: 'Node112', pid: 4, checked: true },
+    ];
+    </script>
+</body>
+</html>
