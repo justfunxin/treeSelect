@@ -14,7 +14,7 @@ For demo, See https://jonmiles.github.io/bootstrap-treeview/
 ```
 ```javascript
 var data = [
-    { id: 1, text: 'Node1', pid: 0, checked: true, icon:"glyphicon glyphicon-stop", tags: ['available']},
+    { id: 1, text: 'Node1', pid: 0, checked: true, icon:"glyphicon glyphicon-stop", tags: ['tag1','tag2']},
     { id: 2, text: 'Node2', pid: 0 },
     { id: 3, text: 'Node3', pid: 0 },
     { id: 4, text: 'Node11', pid: 1, checked: true },
@@ -35,7 +35,7 @@ $('#selectTree').treeSelect({
 #### Demo2: read data from a select
 ```html
 <select id="selectTree2" multiple="multiple">
-    <option value="1" data-pid="0" selected="selected">Node1</option>
+    <option value="1" data-pid="0" selected="selected" data-icon="glyphicon glyphicon-stop" data-tags="tag1,tag2">Node1</option>
     <option value="2" data-pid="0">Node2</option>
     <option value="3" data-pid="0">Node3</option>
     <option value="4" data-pid="1" selected="selected">Node11</option>
@@ -56,6 +56,7 @@ var defaultOptions = {
     data: [],
     ignoreChildNode: true, //ignore child node when check parent node
     showIcon: false,
+    showTags: false,
     levels: 2,//default expend level 2
     color: "#428bca",
     div: '<div class="select-tree"></div>',

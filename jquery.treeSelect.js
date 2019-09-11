@@ -2,8 +2,8 @@
     var defaultOptions = {
         data: [],
         ignoreChildNode: true,
-        showIcon: false,
-        showTags: false,
+        showIcon: true,
+        showTags: true,
         levels: 2,
         color: "#428bca",
         div: '<div class="select-tree"></div>',
@@ -85,26 +85,34 @@
         var datas = [];
         $select.find('option').each(function(i, v) {
             var option = $(this);
+            var tags = option.data('tags');
+            if(tags) {
+                tags = tags.split(',');
+            }
             datas.push({
                 id: parseInt(option.attr('value')),
                 text: option.text(),
                 pid: option.data('pid') || 0,
-                checked: option.is(':checked')
+                checked: option.is(':checked'),
+                icon: option.data('icon'),
+                tags: tags
             })
         });
         return datas;
     }
 
-    function createTreeDatas(datas, pid, idName, textName, pidName, checkedName, selectedName) {
+    function createTreeDatas(datas, pid) {
         var treeDatas = [];
-        var nodes = datas.filter(data => data[pidName || 'pid'] == pid)
+        var nodes = datas.filter(data => data.pid == pid);
         $(nodes).each(function(i, node) {
-            var childDatas = createTreeDatas(datas, node[idName || 'id']);
+            var childDatas = createTreeDatas(datas, node.id);
             treeDatas.push({
-                id: node[idName || 'id'],
-                text: node[textName || 'text'],
+                id: node.id,
+                text: node.text,
+                icon: node.icon,
+                tags: node.tags,
                 state: {
-                    checked: node[checkedName || 'checked']
+                    checked: node.checked
                 },
                 nodes: childDatas.length > 0 ? childDatas : undefined
             });
