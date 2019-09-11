@@ -3,8 +3,11 @@ treeSelect
 
 make a treeSelect use [bootstrap-treeview](https://jonmiles.github.io/bootstrap-treeview/)
 
-support flat json data or a select element
-
+1. support flat json data
+2. support select element
+3. when check a node, auth check all child nodes
+4. when all sibling nodes checked, auto check parent node
+### Demo
 For demo, See http://kangarooxin.github.io/treeSelect
 
 ### Useage:
