@@ -1,6 +1,10 @@
 treeSelect
 ==========
 
+make a treeSelect use [bootstrap-treeview](https://jonmiles.github.io/bootstrap-treeview/)
+
+support flat json data or a select element
+
 For demo, See https://jonmiles.github.io/bootstrap-treeview/
 
 ### Useage:
@@ -10,7 +14,7 @@ For demo, See https://jonmiles.github.io/bootstrap-treeview/
 ```
 ```javascript
 var data = [
-    { id: 1, text: 'Node1', pid: 0, checked: true },
+    { id: 1, text: 'Node1', pid: 0, checked: true, icon:"glyphicon glyphicon-stop", tags: ['available']},
     { id: 2, text: 'Node2', pid: 0 },
     { id: 3, text: 'Node3', pid: 0 },
     { id: 4, text: 'Node11', pid: 1, checked: true },

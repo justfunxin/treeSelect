@@ -3,6 +3,7 @@
         data: [],
         ignoreChildNode: true,
         showIcon: false,
+        showTags: false,
         levels: 2,
         color: "#428bca",
         div: '<div class="select-tree"></div>',
@@ -32,6 +33,7 @@
             data: createTreeDatas(options.data, 0),
             color: options.color,
             showIcon: options.showIcon,
+            showTags: options.showTags,
             showCheckbox: true,
             levels: options.levels,
             onNodeChecked: function(event, node) {
