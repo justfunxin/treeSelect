@@ -1,8 +1,10 @@
 treeSelect
 ==========
 
-### Useage:
+For demo, See https://jonmiles.github.io/bootstrap-treeview/
 
+### Useage:
+#### Demo1: read data from json
 ```html
 <div id="selectTree"></div>
 ```
@@ -22,11 +24,45 @@ var data = [
 $('#selectTree').treeSelect({
     data: data,
     onCheckChange: function(nodes, $tree, $container) {
-        var $selected = $('#selected');
-        $selected.empty();
-        $(nodes).each(function(i, v) {
-            $selected.append('<div class="item">' + v.text + '</div>')
-        });
+        
     }
 });
+```
+#### Demo2: read data from a select
+```html
+<select id="selectTree2" multiple="multiple">
+    <option value="1" data-pid="0" selected="selected">Node1</option>
+    <option value="2" data-pid="0">Node2</option>
+    <option value="3" data-pid="0">Node3</option>
+    <option value="4" data-pid="1" selected="selected">Node11</option>
+    <option value="5" data-pid="1" selected="selected">Node12</option>
+    <option value="6" data-pid="1" selected="selected">Node13</option>
+    <option value="7" data-pid="2">Node21</option>
+    <option value="8" data-pid="2">Node22</option>
+    <option value="9" data-pid="4" selected="selected">Node111</option>
+    <option value="10" data-pid="4" selected="selected">Node112</option>
+</select>
+```
+```javascript
+$('#selectTree2').treeSelect();
+```
+### Options:
+```javascript
+var defaultOptions = {
+    data: [],
+    ignoreChildNode: true, //ignore child node when check parent node
+    showIcon: false,
+    levels: 2,//default expend level 2
+    color: "#428bca",
+    div: '<div class="select-tree"></div>',
+    render: function($tree, $container) {
+        if ($container.is('select')) {
+            $container.hide();
+            $container.after($tree);
+        } else {
+            $container.append($tree);
+        }
+    },
+    onCheckChange: function(nodes, $tree, $container) {}
+};
 ```

@@ -1,7 +1,7 @@
 (function($) {
     var defaultOptions = {
         data: [],
-        filterChildNode: true,
+        ignoreChildNode: true,
         showIcon: false,
         levels: 2,
         color: "#428bca",
@@ -52,7 +52,7 @@
 
     function onCheckChange(options, $tree, $container) {
         var checkedNodes = $tree.treeview('getChecked');
-        var checkDatas = getCheckedDatas(checkedNodes, options.filterChildNode, options.data);
+        var checkDatas = getCheckedDatas(checkedNodes, options.ignoreChildNode, options.data);
         if ($container.is('select')) {
             $container.find('option').removeAttr('selected');
             $(checkDatas).each(function(i, v) {
@@ -64,10 +64,10 @@
         }
     }
 
-    function getCheckedDatas(checkedNodes, filterChildNode, datas) {
+    function getCheckedDatas(checkedNodes, ignoreChildNode, datas) {
         var checkedIds = checkedNodes.map(v => v.id);
         var checkDatas = datas.filter(data => checkedIds.includes(data.id));
-        if (!filterChildNode) {
+        if (!ignoreChildNode) {
             return checkDatas;
         }
         var filterNodes = [];
