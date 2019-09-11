@@ -5,7 +5,7 @@ make a treeSelect use [bootstrap-treeview](https://jonmiles.github.io/bootstrap-
 
 support flat json data or a select element
 
-For demo, See https://jonmiles.github.io/bootstrap-treeview/
+For demo, See http://kangarooxin.github.io/treeSelect
 
 ### Useage:
 #### Demo1: read data from json
