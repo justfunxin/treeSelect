@@ -6,7 +6,7 @@ make a treeSelect use [bootstrap-treeview](https://jonmiles.github.io/bootstrap-
 1. support flat json data where `pid`
 2. support select element, can config option by select `data-` attr
 3. support dropdown select
-4. when check a node, auth check all child nodes
+4. when check a node, auto check all child nodes
 5. when all sibling nodes checked, auto check parent node
 ### Demo
 For demo, See http://kangarooxin.github.io/treeSelect
