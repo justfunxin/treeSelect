@@ -1,4 +1,4 @@
-treeSelect
+TreeSelect
 ==========
 
 make a treeSelect use [bootstrap-treeview](https://jonmiles.github.io/bootstrap-treeview/)
