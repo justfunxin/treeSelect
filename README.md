@@ -3,10 +3,11 @@ treeSelect
 
 make a treeSelect use [bootstrap-treeview](https://jonmiles.github.io/bootstrap-treeview/)
 
-1. support flat json data
-2. support select element
-3. when check a node, auth check all child nodes
-4. when all sibling nodes checked, auto check parent node
+1. support flat json data where `pid`
+2. support select element, can config option by select `data-` attr
+3. support dropdown select
+4. when check a node, auth check all child nodes
+5. when all sibling nodes checked, auto check parent node
 ### Demo
 For demo, See http://kangarooxin.github.io/treeSelect
 
@@ -37,7 +38,7 @@ $('#selectTree').treeSelect({
 ```
 #### Demo2: read data from a select
 ```html
-<select id="selectTree2" multiple="multiple">
+<select id="selectTree2" multiple="multiple" data-show-icon="true" data-levels="1">
     <option value="1" data-pid="0" selected="selected" data-icon="glyphicon glyphicon-stop" data-tags="tag1,tag2">Node1</option>
     <option value="2" data-pid="0">Node2</option>
     <option value="3" data-pid="0">Node3</option>
@@ -55,22 +56,30 @@ $('#selectTree2').treeSelect();
 ```
 ### Options:
 ```javascript
-var defaultOptions = {
+$.fn.treeSelect.defaults = {
     data: [],
-    ignoreChildNode: true, //ignore child node when check parent node
-    showIcon: false,
-    showTags: false,
+    dropdown: false,//dropdown select
+    idName: 'id',
+    pidName: 'pid',
+    textName: 'text',
+    iconName: 'icon',
+    tagsName: 'tags',
+    checkedName: 'checked',
+    ignoreChildNode: true,//ignore child node when check parent node
+    showIcon: true,
+    showTags: true,
     levels: 2,//default expend level 2
-    color: "#428bca",
+    color: "#000",
+    maxHeight: 0,
     div: '<div class="select-tree"></div>',
-    render: function($tree, $container) {
-        if ($container.is('select')) {
-            $container.hide();
-            $container.after($tree);
-        } else {
-            $container.append($tree);
-        }
+    dropdownEmptyText: '请选择...',
+    getDropdownText: function(checkedDatas) {
+        var checkedTexts = checkedDatas.map(function(value) {
+            return value.text;
+        });
+        return checkedTexts.join(',');
     },
-    onCheckChange: function(nodes, $tree, $container) {}
+    onCheckChange: function (checkedDatas, $tree, $container) {
+    }
 };
 ```
