@@ -27,6 +27,7 @@
             this.initSelectOption('section');
             this.initSelectOption('sectionName');
             this.initSelectOption('sectionDelimiter');
+            this.initSelectOption('firstLevelPid');
         }
     };
 
@@ -54,7 +55,7 @@
             options.data = this.createDataFromSelect();
         }
         this.$tree.treeview({
-            data: this.createTreeDatas(options.data, 0),
+            data: this.createTreeDatas(options.data, options.firstLevelPid),
             color: options.color,
             showIcon: options.showIcon,
             showTags: options.showTags,
@@ -151,14 +152,18 @@
 
     TreeSelect.prototype.checkAllChildNodes = function (node, method) {
         var _this = this;
-        $(node.nodes).each(function (index, cnode) {
-            _this.$tree.treeview(method, [cnode.nodeId, {
+        if(node.nodes && node.nodes.length > 0) {
+            var ids = [];
+            $(node.nodes).each(function(index, cnode) {
+                ids.push(cnode.nodeId);
+            });
+            _this.$tree.treeview(method, [ids, {
                 silent: true
             }]);
-            if (cnode.nodes) {
+            $(node.nodes).each(function (index, cnode) {
                 _this.checkAllChildNodes(cnode, method);
-            }
-        });
+            });
+        }
     };
 
     TreeSelect.prototype.onCheckChange = function () {
@@ -214,32 +219,39 @@
                 if(pnode.length > 0) {
                     $(this).attr('data-pid', pnode.attr('value'));
                 } else {
-                    $(this).attr('data-pid', 0);
+                    $(this).attr('data-pid', _this.options.firstLevelPid);
                 }
             } else {
-                $(this).attr('data-pid', 0);
+                $(this).attr('data-pid', _this.options.firstLevelPid);
             }
         });
     };
 
     TreeSelect.prototype.createDataFromSelect = function () {
         var datas = [];
+        var _this = this;
         this.$container.find('option').each(function (i, v) {
             var option = $(this);
-            var tags = option.data('tags');
+            var tags = _this.escapeHtml(option.data('tags'));
             if (tags) {
                 tags = tags.split(',');
             }
             datas.push({
-                id: parseInt(option.attr('value')),
-                text: option.text(),
-                pid: option.data('pid') || 0,
+                id: option.attr('value'),
+                text: option.html(),
+                pid: option.attr('data-pid'),
                 checked: option.is(':checked'),
-                icon: option.data('icon'),
+                icon: option.attr('data-icon'),
                 tags: tags
             })
         });
         return datas;
+    };
+
+    TreeSelect.prototype.escapeHtml = function(content) {
+        var $div = $('<div/>');
+        $div.text(content);
+        return $div.html();
     };
 
     TreeSelect.prototype.createTreeDatas = function (datas, pid) {
@@ -282,6 +294,7 @@
         levels: 2,
         color: "#000",
         maxHeight: 0,
+        firstLevelPid: undefined,
         div: '<div class="select-tree"></div>',
         dropdownEmptyText: '请选择...',
         getDropdownText: function(checkedDatas) {
