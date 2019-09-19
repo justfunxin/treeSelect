@@ -258,7 +258,7 @@
         var _this = this;
         var treeDatas = [];
         var nodes = datas.filter(function(value){
-            return value[_this.options.pidName] === pid;
+            return value[_this.options.pidName] == pid;
         });
         $(nodes).each(function (i, node) {
             var childDatas = _this.createTreeDatas(datas, node.id);
