@@ -9,10 +9,12 @@
 <body>
     <div class="container">
         <div class="row">
+            <h2>json data</h2>
             <div id="selectTree" class="col-md-6"></div>
             <div id="selected" class="col-md-6"></div>
         </div>
         <div>
+            <h2>simple select</h2>
             <select id="selectTree2" multiple="multiple" data-show-icon="true" data-levels="1">
                 <option value="1" data-pid="0" selected="selected" data-icon="glyphicon glyphicon-stop" data-tags="tag1,tag2">Node1</option>
                 <option value="2" data-pid="0">Node2</option>
@@ -27,6 +29,7 @@
             </select>
         </div>
         <div>
+            <h2>dropdown select</h2>
             <select id="selectTree3" multiple="multiple" data-show-icon="true" data-levels="1" data-dropdown="true">
                 <option value="1" data-pid="0" selected="selected" data-icon="glyphicon glyphicon-stop" data-tags="tag1,tag2">Node1</option>
                 <option value="2" data-pid="0">Node2</option>
@@ -38,6 +41,21 @@
                 <option value="8" data-pid="2">Node22</option>
                 <option value="9" data-pid="4" selected="selected">Node111</option>
                 <option value="10" data-pid="4" selected="selected">Node112</option>
+            </select>
+        </div>
+        <div>
+            <h2>section type select</h2>
+            <select id="selectTree4" multiple="multiple" data-show-icon="true" data-levels="1" data-section="true">
+                <option value="1" data-section="Node1" selected="selected" data-icon="glyphicon glyphicon-stop" data-tags="tag1,tag2">Node1</option>
+                <option value="2" data-section="Node2">Node2</option>
+                <option value="3" data-section="Node3">Node3</option>
+                <option value="4" data-section="Node1:Node11" selected="selected">Node11</option>
+                <option value="5" data-section="Node1:Node12" selected="selected">Node12</option>
+                <option value="6" data-section="Node1:Node13" selected="selected">Node13</option>
+                <option value="7" data-section="Node2:Node21">Node21</option>
+                <option value="8" data-section="Node2:Node22">Node22</option>
+                <option value="9" data-section="Node1:Node11:Node111" selected="selected">Node111</option>
+                <option value="10" data-section="Node1:Node11:Node111" selected="selected">Node112</option>
             </select>
         </div>
     </div>
@@ -65,6 +83,7 @@
         });
         $('#selectTree2').treeSelect();
         $('#selectTree3').treeSelect();
+        $('#selectTree4').treeSelect();
     });
     var data = [
         { id: 1, text: 'Node1', pid: 0, checked: true, icon:"glyphicon glyphicon-stop", tags: ['tag1','tag2']},

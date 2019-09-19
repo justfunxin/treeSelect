@@ -24,6 +24,9 @@
             this.initSelectOption('levels');
             this.initSelectOption('color');
             this.initSelectOption('maxHeight');
+            this.initSelectOption('section');
+            this.initSelectOption('sectionName');
+            this.initSelectOption('sectionDelimiter');
         }
     };
 
@@ -45,6 +48,9 @@
         var $container = this.$container;
         var options = this.options;
         if ($container.is('select')) {
+            if(options.section) {
+                this.initSelectPid();
+            }
             options.data = this.createDataFromSelect();
         }
         this.$tree.treeview({
@@ -196,6 +202,26 @@
         return filterNodes;
     };
 
+    TreeSelect.prototype.initSelectPid = function() {
+        var _this = this;
+        var _sectionName = _this.options.sectionName;
+        var _sectionDelimiter = _this.options.sectionDelimiter;
+        this.$container.find('option').each(function (i, v) {
+            var section = $(this).data(_sectionName);
+            if(section.lastIndexOf(_sectionDelimiter) > 0) {
+                section = section.substring(0, section.lastIndexOf(_sectionDelimiter));
+                var pnode = _this.$container.find('option[data-' + _sectionName + '="' + section + '"]');
+                if(pnode.length > 0) {
+                    $(this).attr('data-pid', pnode.attr('value'));
+                } else {
+                    $(this).attr('data-pid', 0);
+                }
+            } else {
+                $(this).attr('data-pid', 0);
+            }
+        });
+    };
+
     TreeSelect.prototype.createDataFromSelect = function () {
         var datas = [];
         this.$container.find('option').each(function (i, v) {
@@ -241,6 +267,9 @@
     $.fn.treeSelect.defaults = {
         data: [],
         dropdown: false,
+        section : false,
+        sectionName: 'section',
+        sectionDelimiter: ':',
         idName: 'id',
         pidName: 'pid',
         textName: 'text',
