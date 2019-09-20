@@ -5,10 +5,11 @@ TreeSelect
 生成树形选择器
 
 1. 支持扁平json数据结构，指定pid即可
-2. 支持把Select转化成树
-3. Select时可以指定使用pid还是使用分级节点形式的数据
-4. 支持树形下拉框
-5. 选中节点自动选中子节点，所有兄弟节点选中时，自动选中父节点
+2. 支持把Select转化成树，支持单选和多选
+3. 多选时，选中节点自动选中子节点，所有兄弟节点选中时，自动选中父节点
+4. Select时可以指定使用pid还是使用分级节点section形式的数据
+5. 支持树形下拉框
+6. 支持搜索
 ### Demo
 For demo, See http://kangarooxin.github.io/treeSelect
 
