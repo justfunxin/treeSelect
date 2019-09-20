@@ -29,6 +29,10 @@
             this.initSelectOption('sectionDelimiter');
             this.initSelectOption('firstLevelPid');
             this.initSelectOption('searchable');
+            this.initSelectOption('searchIgnoreCase');
+            this.initSelectOption('searchExactMatch');
+            this.initSelectOption('autoCheckChildNode');
+            this.initSelectOption('autoCheckParentNode');
         }
     };
 
