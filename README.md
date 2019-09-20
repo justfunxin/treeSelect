@@ -13,7 +13,7 @@ TreeSelect
 For demo, See http://kangarooxin.github.io/treeSelect
 
 ### Useage:
-#### Demo1: 使用扁平JSON数据生成数
+#### Demo1: 使用扁平JSON数据
 ```html
 <div id="selectTree"></div>
 ```

@@ -49,15 +49,15 @@
         var $container = this.$container;
         var options = this.options;
         if ($container.is('select')) {
-            if(options.section) {
-                this.initSelectPid();
-            }
             options.data = this.createDataFromSelect();
             options.flatData = true;
         }
         var data = options.data;
         if(options.flatData) {
-            data = this.createTreeDatas(options.data, options.firstLevelPid);
+            if(options.section) {
+                this.initPidFromSection(data);
+            }
+            data = this.createTreeDatas(data, options.firstLevelPid);
         }
 
         this.$tree.treeview({
@@ -222,23 +222,25 @@
         return filterNodes;
     };
 
-    TreeSelect.prototype.initSelectPid = function() {
+    TreeSelect.prototype.initPidFromSection = function(datas) {
         var _this = this;
         var _sectionName = _this.options.sectionName;
+        var _pidName = _this.options.pidName;
+        var _idName = _this.options.idName;
         var _sectionDelimiter = _this.options.sectionDelimiter;
-        this.$container.find('option').each(function (i, v) {
-            var section = $(this).data(_sectionName);
+        $(datas).each(function(i, v){
+            var pid = _this.options.firstLevelPid;
+            var section = v[_sectionName];
             if(section.lastIndexOf(_sectionDelimiter) > 0) {
                 section = section.substring(0, section.lastIndexOf(_sectionDelimiter));
-                var pnode = _this.$container.find('option[data-' + _sectionName + '="' + section + '"]');
+                var pnode = datas.filter(function(data){
+                    return data[_sectionName] == section;
+                });
                 if(pnode.length > 0) {
-                    $(this).attr('data-pid', pnode.attr('value'));
-                } else {
-                    $(this).attr('data-pid', _this.options.firstLevelPid);
+                    pid = pnode[0][_idName];
                 }
-            } else {
-                $(this).attr('data-pid', _this.options.firstLevelPid);
             }
+            v[_pidName] = pid;
         });
     };
 
@@ -247,18 +249,19 @@
         var _this = this;
         this.$container.find('option').each(function (i, v) {
             var option = $(this);
-            var tags = _this.escapeHtml(option.data('tags'));
+            var tags = _this.escapeHtml(option.attr('data-' + _this.options.tagsName));
             if (tags) {
                 tags = tags.split(',');
             }
-            datas.push({
-                id: option.attr('value'),
-                text: option.html(),
-                pid: option.attr('data-pid'),
-                checked: option.is(':checked'),
-                icon: option.attr('data-icon'),
-                tags: tags
-            })
+            var data = {};
+            data[_this.options.idName] = option.attr('value');
+            data[_this.options.textName] = option.html();
+            data[_this.options.pidName] = option.attr('data-' + _this.options.pidName);
+            data[_this.options.sectionName] = option.attr('data-' + _this.options.sectionName);
+            data[_this.options.checkedName] = option.is(':checked');
+            data[_this.options.iconName] = option.attr('data-' + _this.options.iconName);
+            data[_this.options.tagsName] = tags;
+            datas.push(data);
         });
         return datas;
     };
