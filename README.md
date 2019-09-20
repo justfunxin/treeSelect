@@ -94,20 +94,24 @@ $('#selectTree4').treeSelect();
 ```
 ### Options:
 ```javascript
-$.fn.treeSelect.defaults = {
+ $.fn.treeSelect.defaults = {
     data: [],
     flatData: true,//扁平json数据，使用pid指定父节点
     dropdown: false,//下拉选择框
     dropdownEmptyText: '请选择...',//下拉选择框不选择时显示的内容
-    section : false,//不使用pid，使用分级节点和分隔符构建父子节点
+    section: false,//不使用pid，使用分级节点和分隔符构建父子节点
     sectionName: 'section', //分级节点名称
     sectionDelimiter: ':',  //分级节点分隔符
+    searchable: true, //可以搜索
+    searchIgnoreCase: true, //搜索忽略大小写
+    searchExactMatch: false, //搜索全匹配
     idName: 'id',
     pidName: 'pid',
     textName: 'text',
     iconName: 'icon',
     tagsName: 'tags',
     checkedName: 'checked',
+    multiple: true, //多选
     autoCheckChildNode: true,//选中节点时自动选中所有子节点
     autoCheckParentNode: true, //兄弟节点都被选中时，自动选中父节点
     ignoreChildNode: true,//选中父节点时上报事件中忽略子节点
@@ -116,14 +120,22 @@ $.fn.treeSelect.defaults = {
     levels: 2,//默认展开2层
     color: "#000", //文字颜色
     maxHeight: 0,  //框体最大高度，0不限制
-    div: '<div class="select-tree"></div>',
-    getDropdownText: function(checkedDatas) {//下拉选择框选中后展示内容
-        var checkedTexts = checkedDatas.map(function(value) {
+    div: '<div class="tree-select">' +
+        '   <div class="tree-select-search">' +
+        '       <input type="text" class="form-control" placeholder="Type to search...">' +
+        '       <span class="glyphicon glyphicon-remove tree-select-search-clear"></span>' +
+        '   </div>' +
+        '   <div class="tree-select-view"></div>' +
+        '</div>',
+    getDropdownText: function (checkedDatas) {//下拉选择框选中后展示内容
+        var checkedTexts = checkedDatas.map(function (value) {
             return value.text;
         });
         return checkedTexts.join(',');
     },
-    onCheckChange: function (checkedDatas, $tree, $container) {
+    onCheckChange: function (checkedDatas, $treeSelect, $container) {
+    },
+    onSearchResult: function(searchResultDatas, $treeSelect, $container) {
     }
 };
 ```
