@@ -1,0 +1,37 @@
+.treeview .list-group-item {
+    cursor: pointer;
+}
+
+.treeview span.indent {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.treeview span.icon {
+    width: 12px;
+    margin-right: 5px;
+}
+
+.treeview .node-disabled {
+    color: silver;
+    cursor: not-allowed;
+}
+
+.tree-select .tree-select-search {
+    position: relative;
+}
+
+.tree-select .tree-select-search input {
+    padding-right: 30px;
+}
+
+.tree-select .tree-select-search .tree-select-search-clear {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0.2;
+}
+
+.tree-select.dropdown-menu .list-group {
+    margin-bottom: 0;
+}
