@@ -48,8 +48,6 @@
         this.onCheckChange();
     };
 
-
-
     TreeSelect.prototype.build = function () {
         var _this = this;
         var $container = this.$container;
@@ -57,6 +55,7 @@
         if ($container.is('select')) {
             options.data = this.createDataFromSelect();
             options.flatData = true;
+            options.multiple = typeof( $container.attr("multiple")) != "undefined";
         }
         var data = options.data;
         if (options.flatData) {
