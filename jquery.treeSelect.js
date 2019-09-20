@@ -53,9 +53,15 @@
                 this.initSelectPid();
             }
             options.data = this.createDataFromSelect();
+            options.flatData = true;
         }
+        var data = options.data;
+        if(options.flatData) {
+            data = this.createTreeDatas(options.data, options.firstLevelPid);
+        }
+
         this.$tree.treeview({
-            data: this.createTreeDatas(options.data, options.firstLevelPid),
+            data: data,
             color: options.color,
             showIcon: options.showIcon,
             showTags: options.showTags,
@@ -84,7 +90,7 @@
         }
         var checkedNodes = this.$tree.treeview('getChecked');
         $(checkedNodes).each(function (i, v) {
-            _this.checkAllChildNodes(v, 'checkNode');
+            _this.checkAllNodes(v, 'checkNode');
         });
     };
 
@@ -126,44 +132,53 @@
     };
 
     TreeSelect.prototype.checkAllNodes = function (node, method) {
-        this.checkAllChildNodes(node, method);
-        this.checkAllParentNodes(node, method);
-    };
-
-    TreeSelect.prototype.checkAllParentNodes = function (node, method) {
-        if (node.parentId === undefined) {
-            return;
+        var childNodeIds = this.getAllChildNodes(node);
+        var parentNodeIds = this.getAllAffectParentNodes(node, method);
+        var nodeIds = [];
+        if(this.options.autoCheckChildNode) {
+            nodeIds = nodeIds.concat(childNodeIds);
         }
-        if ("checkNode" === method) {
-            var arr = this.$tree.treeview('getSiblings', node);
-            for (var i = 0; i < arr.length; i++) {
-                var brotherNode = arr[i];
-                if (!brotherNode.state.checked) {
-                    return;
-                }
-            }
+        if(this.options.autoCheckParentNode) {
+            nodeIds = nodeIds.concat(parentNodeIds);
         }
-        this.$tree.treeview(method, [node.parentId, {
-            silent: true
-        }]);
-        var pnode = this.$tree.treeview('getNode', node.parentId);
-        this.checkAllParentNodes(pnode, method);
-    };
-
-    TreeSelect.prototype.checkAllChildNodes = function (node, method) {
-        var _this = this;
-        if(node.nodes && node.nodes.length > 0) {
-            var ids = [];
-            $(node.nodes).each(function(index, cnode) {
-                ids.push(cnode.nodeId);
-            });
-            _this.$tree.treeview(method, [ids, {
+        if(nodeIds.length > 0) {
+            this.$tree.treeview(method, [nodeIds, {
                 silent: true
             }]);
-            $(node.nodes).each(function (index, cnode) {
-                _this.checkAllChildNodes(cnode, method);
-            });
         }
+    };
+
+    TreeSelect.prototype.isAllSiblingsChecked = function(node) {
+        var arr = this.$tree.treeview('getSiblings', node);
+        for (var i = 0; i < arr.length; i++) {
+            var brotherNode = arr[i];
+            if (!brotherNode.state.checked) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    TreeSelect.prototype.getAllAffectParentNodes = function(node, method) {
+        var ids = [];
+        if(node.parentId !== undefined) {
+            if("uncheckNode" === method || ("checkNode" === method && this.isAllSiblingsChecked(node))) {
+                var parentNode = this.$tree.treeview('getNode', node.parentId);
+                ids.push(node.parentId);
+                ids = ids.concat(this.getAllAffectParentNodes(parentNode, method));
+            }
+        }
+        return ids;
+    };
+
+    TreeSelect.prototype.getAllChildNodes = function(node) {
+        var _this = this;
+        var ids = [];
+        $(node.nodes).each(function(index, childNode) {
+            ids.push(childNode.nodeId);
+            ids = ids.concat(_this.getAllChildNodes(childNode));
+        });
+        return ids;
     };
 
     TreeSelect.prototype.onCheckChange = function () {
@@ -278,26 +293,28 @@
 
     $.fn.treeSelect.defaults = {
         data: [],
-        dropdown: false,
-        section : false,
-        sectionName: 'section',
-        sectionDelimiter: ':',
+        flatData: true,//扁平json数据，使用pid指定父节点
+        dropdown: false,//下拉选择框
+        dropdownEmptyText: '请选择...',//下拉选择框不选择时显示的内容
+        section : false,//不使用pid，使用分级节点和分隔符构建父子节点
+        sectionName: 'section', //分级节点名称
+        sectionDelimiter: ':',  //分级节点分隔符
         idName: 'id',
         pidName: 'pid',
         textName: 'text',
         iconName: 'icon',
         tagsName: 'tags',
         checkedName: 'checked',
-        ignoreChildNode: true,
-        showIcon: true,
-        showTags: true,
-        levels: 2,
-        color: "#000",
-        maxHeight: 0,
-        firstLevelPid: undefined,
+        autoCheckChildNode: true,//选中节点时自动选中所有子节点
+        autoCheckParentNode: true, //兄弟节点都被选中时，自动选中父节点
+        ignoreChildNode: true,//选中父节点时上报事件中忽略子节点
+        showIcon: true,//显示图标
+        showTags: true,//显示标签
+        levels: 2,//默认展开2层
+        color: "#000", //文字颜色
+        maxHeight: 0,  //框体最大高度，0不限制
         div: '<div class="select-tree"></div>',
-        dropdownEmptyText: '请选择...',
-        getDropdownText: function(checkedDatas) {
+        getDropdownText: function(checkedDatas) {//下拉选择框选中后展示内容
             var checkedTexts = checkedDatas.map(function(value) {
                 return value.text;
             });

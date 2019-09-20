@@ -1,19 +1,19 @@
 TreeSelect
 ==========
 
-make a treeSelect use [bootstrap-treeview](https://jonmiles.github.io/bootstrap-treeview/)
+使用 [bootstrap-treeview](https://jonmiles.github.io/bootstrap-treeview/)
+生成树形选择器
 
-1. support flat json data where `pid`
-2. support select element, can config option by select `data-` attr
-3. support `data-pid` or `data-section` type data
-4. support `dropdown` select
-5. when check a node, auto check all child nodes
-6. when all sibling nodes checked, auto check parent node
+1. 支持扁平json数据结构，指定pid即可
+2. 支持把Select转化成树
+3. Select时可以指定使用pid还是使用分级节点形式的数据
+4. 支持树形下拉框
+5. 选中节点自动选中子节点，所有兄弟节点选中时，自动选中父节点
 ### Demo
 For demo, See http://kangarooxin.github.io/treeSelect
 
 ### Useage:
-#### Demo1: read data from json
+#### Demo1: 使用扁平JSON数据生成数
 ```html
 <div id="selectTree"></div>
 ```
@@ -37,7 +37,7 @@ $('#selectTree').treeSelect({
     }
 });
 ```
-#### Demo2: read data from a select
+#### Demo2: 把Select转化成树
 ```html
 <select id="selectTree2" multiple="multiple" data-show-icon="true" data-levels="1">
     <option value="1" data-pid="0" selected="selected" data-icon="glyphicon glyphicon-stop" data-tags="tag1,tag2">Node1</option>
@@ -55,7 +55,7 @@ $('#selectTree').treeSelect({
 ```javascript
 $('#selectTree2').treeSelect();
 ```
-#### Demo3: read data from a select, and display as a dropdown
+#### Demo3: 树形下拉框
 ```html
 <select id="selectTree3" multiple="multiple" data-show-icon="true" data-levels="1" data-dropdown="true">
     <option value="1" data-pid="0" selected="selected" data-icon="glyphicon glyphicon-stop" data-tags="tag1,tag2">Node1</option>
@@ -73,7 +73,7 @@ $('#selectTree2').treeSelect();
 ```javascript
 $('#selectTree3').treeSelect();
 ```
-#### Demo4: read data from a select, and use section delimiter instead of pid
+#### Demo4: 使用分级节点数据
 ```html
 <select id="selectTree4" multiple="multiple" data-show-icon="true" data-levels="1" data-section="true">
     <option value="1" data-section="Node1" selected="selected" data-icon="glyphicon glyphicon-stop" data-tags="tag1,tag2">Node1</option>
@@ -95,25 +95,28 @@ $('#selectTree4').treeSelect();
 ```javascript
 $.fn.treeSelect.defaults = {
     data: [],
-    dropdown: false,//dropdown select
-    section : false,//use section delimiter instead of pid
-    sectionName: 'section',
-    sectionDelimiter: ':',
+    flatData: true,//扁平json数据，使用pid指定父节点
+    dropdown: false,//下拉选择框
+    dropdownEmptyText: '请选择...',//下拉选择框不选择时显示的内容
+    section : false,//不使用pid，使用分级节点和分隔符构建父子节点
+    sectionName: 'section', //分级节点名称
+    sectionDelimiter: ':',  //分级节点分隔符
     idName: 'id',
     pidName: 'pid',
     textName: 'text',
     iconName: 'icon',
     tagsName: 'tags',
     checkedName: 'checked',
-    ignoreChildNode: true,//ignore child node when check parent node
-    showIcon: true,
-    showTags: true,
-    levels: 2,//default expend level 2
-    color: "#000",
-    maxHeight: 0,
+    autoCheckChildNode: true,//选中节点时自动选中所有子节点
+    autoCheckParentNode: true, //兄弟节点都被选中时，自动选中父节点
+    ignoreChildNode: true,//选中父节点时上报事件中忽略子节点
+    showIcon: true,//显示图标
+    showTags: true,//显示标签
+    levels: 2,//默认展开2层
+    color: "#000", //文字颜色
+    maxHeight: 0,  //框体最大高度，0不限制
     div: '<div class="select-tree"></div>',
-    dropdownEmptyText: '请选择...',
-    getDropdownText: function(checkedDatas) {
+    getDropdownText: function(checkedDatas) {//下拉选择框选中后展示内容
         var checkedTexts = checkedDatas.map(function(value) {
             return value.text;
         });
