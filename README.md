@@ -13,10 +13,13 @@ TreeSelect
 7. 仅叶子节点可选
 ### Demo
 For demo, See http://kangarooxin.github.io/treeSelect
-![20190923103723.png](img/20190923103723.png)
+
 ![20190923103907.png](img/20190923103907.png)
+
 ![20190923103936.png](img/20190923103936.png)
+
 ![20190923103957.png](img/20190923103957.png)
+
 ### Useage:
 #### Demo1: 使用扁平JSON数据
 ```html
