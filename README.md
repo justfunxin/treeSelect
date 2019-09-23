@@ -10,9 +10,13 @@ TreeSelect
 4. Select时可以指定使用pid还是使用分级节点section形式的数据
 5. 支持树形下拉框
 6. 支持搜索
+7. 仅叶子节点可选
 ### Demo
 For demo, See http://kangarooxin.github.io/treeSelect
-
+![20190923103723.png](img/20190923103723.png)
+![20190923103907.png](img/20190923103907.png)
+![20190923103936.png](img/20190923103936.png)
+![20190923103957.png](img/20190923103957.png)
 ### Useage:
 #### Demo1: 使用扁平JSON数据
 ```html
@@ -95,7 +99,7 @@ $('#selectTree4').treeSelect();
 ### Options:
 ```javascript
  $.fn.treeSelect.defaults = {
-    data: [],
+    data: [], []()
     flatData: true,//扁平json数据，使用pid指定父节点
     dropdown: false,//下拉选择框
     dropdownEmptyText: '请选择...',//下拉选择框不选择时显示的内容
@@ -112,6 +116,7 @@ $('#selectTree4').treeSelect();
     tagsName: 'tags',
     checkedName: 'checked',
     multiple: true, //多选
+    onlyLeafSelectable: false, //仅可选中叶子节点
     autoCheckChildNode: true,//选中节点时自动选中所有子节点
     autoCheckParentNode: true, //兄弟节点都被选中时，自动选中父节点
     ignoreChildNode: true,//选中父节点时上报事件中忽略子节点

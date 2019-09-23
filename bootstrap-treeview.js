@@ -56,6 +56,7 @@
 		showBorder: true,
 		showIcon: true,
 		showCheckbox: false,
+		onlyLeafSelectable: false,
 		showTags: false,
 		multiSelect: false,
 
@@ -570,18 +571,19 @@
 			// Add check / unchecked icon
 			if (_this.options.showCheckbox) {
 
-				var classList = ['check-icon'];
-				if (node.state.checked) {
-					classList.push(_this.options.checkedIcon);
-				}
-				else {
-					classList.push(_this.options.uncheckedIcon);
-				}
+				if(!_this.options.onlyLeafSelectable || !node.nodes) {
+					var classList = ['check-icon'];
+					if (node.state.checked) {
+						classList.push(_this.options.checkedIcon);
+					} else {
+						classList.push(_this.options.uncheckedIcon);
+					}
 
-				treeItem
-					.append($(_this.template.icon)
-						.addClass(classList.join(' '))
-					);
+					treeItem
+						.append($(_this.template.icon)
+							.addClass(classList.join(' '))
+						);
+				}
 			}
 
 			// Add text

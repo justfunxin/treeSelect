@@ -31,6 +31,7 @@
             this.initSelectOption('searchable');
             this.initSelectOption('searchIgnoreCase');
             this.initSelectOption('searchExactMatch');
+            this.initSelectOption('onlyLeafSelectable');
             this.initSelectOption('autoCheckChildNode');
             this.initSelectOption('autoCheckParentNode');
         }
@@ -75,6 +76,7 @@
             showIcon: options.showIcon,
             showTags: options.showTags,
             showCheckbox: true,
+            onlyLeafSelectable: options.onlyLeafSelectable,
             highlightSelected: false,
             levels: options.levels,
             onNodeChecked: function (event, node) {
@@ -103,7 +105,7 @@
         if (options.maxHeight > 0) {
             this.$tree.css('max-height', options.maxHeight + 'px').css('overflow-y', 'auto');
         }
-        if (options.multiple) {
+        if (options.multiple && !options.onlyLeafSelectable) {
             var checkedNodes = this.$tree.treeview('getChecked');
             $(checkedNodes).each(function (i, v) {
                 _this.checkAllNodes(v, 'checkNode');
@@ -378,6 +380,7 @@
         tagsName: 'tags',
         checkedName: 'checked',
         multiple: true, //多选
+        onlyLeafSelectable: false, //仅可选中叶子节点
         autoCheckChildNode: true,//选中节点时自动选中所有子节点
         autoCheckParentNode: true, //兄弟节点都被选中时，自动选中父节点
         ignoreChildNode: true,//选中父节点时上报事件中忽略子节点
