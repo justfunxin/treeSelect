@@ -103,7 +103,7 @@ $('#selectTree4').treeSelect();
 ### Options:
 ```javascript
  $.fn.treeSelect.defaults = {
-    data: [], []()
+    data: [],
     flatData: true,//扁平json数据，使用pid指定父节点
     dropdown: false,//下拉选择框
     dropdownEmptyText: '请选择...',//下拉选择框不选择时显示的内容
