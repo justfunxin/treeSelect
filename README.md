@@ -13,7 +13,7 @@ TreeSelect
 7. 支持搜索
 8. 支持仅叶子节点可选
 ### Demo
-For demo, See http://kangarooxin.github.io/treeSelect
+For demo, See <http://kangarooxin.github.io/treeSelect>
 
 ![20190923103907.png](img/20190923103907.png)
 

@@ -1,20 +1,56 @@
-(function ($) {
-    $.fn.treeSelect = function (options) {
-        options = $.extend({}, $.fn.treeSelect.defaults, options);
-        var $treeSelect = new TreeSelect($(this), options);
-        $treeSelect.init();
-        return {
-            reload: function reload(data) {
-                $treeSelect.reload(data);
-            },
-            remove: function remove() {
-                $treeSelect.remove();
+;(function ($, window, document, undefined) {
+
+    var pluginName = 'treeSelect';
+
+    $.fn[pluginName] = function (options, args) {
+
+        var result;
+
+        this.each(function () {
+            var _this = $.data(this, pluginName);
+            if (typeof options === 'string') {
+                if (!_this) {
+                    logError('Not initialized, can not call method : ' + options);
+                }
+                else if (!$.isFunction(_this[options]) || options.charAt(0) === '_') {
+                    logError('No such method : ' + options);
+                }
+                else {
+                    if (!(args instanceof Array)) {
+                        args = [ args ];
+                    }
+                    result = _this[options].apply(_this, args);
+                }
             }
-        };
+            else if (typeof options === 'boolean') {
+                result = _this;
+            }
+            else {
+                $.data(this, pluginName, new TreeSelect(this, $.extend({}, $.fn.treeSelect.defaults, options)));
+            }
+        });
+
+        return result || this;
     };
 
-    var TreeSelect = function ($container, options) {
-        this.$container = $container;
+    var logError = function (message) {
+        if (window.console) {
+            window.console.error(message);
+        }
+    };
+
+    var TreeSelect = function (container, options) {
+        this.$container = $(container);
+        this.init(options);
+        return {
+            remove: $.proxy(this.remove, this),
+            reload: $.proxy(this.reload, this),
+            checkAll: $.proxy(this.checkAll, this),
+            uncheckAll: $.proxy(this.uncheckAll, this),
+        }
+    };
+
+    TreeSelect.prototype.init = function (options) {
         this.options = options;
         if (this.$container.is('select')) {
             this.initSelectOption('dropdown');
@@ -35,15 +71,6 @@
             this.initSelectOption('autoCheckChildNode');
             this.initSelectOption('autoCheckParentNode');
         }
-    };
-
-    TreeSelect.prototype.initSelectOption = function (name) {
-        if (this.$container.data(name) !== undefined) {
-            this.options[name] = this.$container.data(name);
-        }
-    };
-
-    TreeSelect.prototype.init = function () {
         this.$treeSelect = $(this.options.div);
         this.$search = this.$treeSelect.find('.tree-select-search');
         this.$tree = this.$treeSelect.find('.tree-select-view');
@@ -51,6 +78,12 @@
         this.render();
         this.initSearch();
         this.onCheckChange();
+    };
+
+    TreeSelect.prototype.initSelectOption = function (name) {
+        if (this.$container.data(name) !== undefined) {
+            this.options[name] = this.$container.data(name);
+        }
     };
 
     TreeSelect.prototype.build = function () {
@@ -141,7 +174,9 @@
     };
 
     TreeSelect.prototype.remove = function () {
+        $.removeData(this, pluginName);
         this.$treeSelect.remove();
+        this.$tree.empty();
         if (this.$container.is('select')) {
             this.$container.show();
         }
@@ -149,12 +184,27 @@
 
     TreeSelect.prototype.reload = function (data) {
         this.$treeSelect.remove();
+        this.$tree.empty();
         this.options = $.extend({}, this.options, {
             data: data
         });
         this.build();
         this.render();
         this.initSearch();
+        this.onCheckChange();
+    };
+
+    TreeSelect.prototype.uncheckAll = function () {
+        this.$tree.treeview('uncheckAll', {
+            silent: true
+        });
+        this.onCheckChange();
+    };
+
+    TreeSelect.prototype.checkAll = function () {
+        this.$tree.treeview('checkAll', {
+            silent: true
+        });
         this.onCheckChange();
     };
 
@@ -407,4 +457,4 @@
         onSearchResult: function(searchResultDatas, $treeSelect, $container) {
         }
     };
-})(jQuery);
+})(jQuery, window, document);
