@@ -35,3 +35,8 @@
 .tree-select.dropdown-menu .list-group {
     margin-bottom: 0;
 }
+
+.dropdown-tree {
+    display: inline-block;
+    vertical-align: middle;
+}

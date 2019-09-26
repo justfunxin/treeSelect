@@ -376,7 +376,7 @@
             data[_this.options.textName] = option.html();
             data[_this.options.pidName] = option.attr('data-' + _this.options.pidName);
             data[_this.options.sectionName] = option.attr('data-' + _this.options.sectionName);
-            data[_this.options.checkedName] = option.is(':checked');
+            data[_this.options.checkedName] = option.attr('selected') === 'selected';
             data[_this.options.iconName] = option.attr('data-' + _this.options.iconName);
             data[_this.options.tagsName] = tags;
             datas.push(data);
