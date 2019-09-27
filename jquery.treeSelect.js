@@ -67,7 +67,7 @@
             this.initSelectOption('searchable');
             this.initSelectOption('searchIgnoreCase');
             this.initSelectOption('searchExactMatch');
-            this.initSelectOption('onlyLeafSelectable');
+            this.initSelectOption('onlyLeafNodeResult');
             this.initSelectOption('autoCheckChildNode');
             this.initSelectOption('autoCheckParentNode');
         }
@@ -109,7 +109,6 @@
             showIcon: options.showIcon,
             showTags: options.showTags,
             showCheckbox: true,
-            onlyLeafSelectable: options.onlyLeafSelectable,
             highlightSelected: false,
             levels: options.levels,
             onNodeChecked: function (event, node) {
@@ -138,7 +137,7 @@
         if (options.maxHeight > 0) {
             this.$tree.css('max-height', options.maxHeight + 'px').css('overflow-y', 'auto');
         }
-        if (options.multiple && !options.onlyLeafSelectable) {
+        if (options.multiple) {
             var checkedNodes = this.$tree.treeview('getChecked');
             $(checkedNodes).each(function (i, v) {
                 _this.checkAllNodes(v, 'checkNode');
@@ -376,7 +375,8 @@
             data[_this.options.textName] = option.html();
             data[_this.options.pidName] = option.attr('data-' + _this.options.pidName);
             data[_this.options.sectionName] = option.attr('data-' + _this.options.sectionName);
-            data[_this.options.checkedName] = option.attr('selected') === 'selected';
+            data[_this.options.checkedName] = option.is(':checked')
+            data[_this.options.checkableName] = option.data(_this.options.checkableName);
             data[_this.options.iconName] = option.attr('data-' + _this.options.iconName);
             data[_this.options.tagsName] = tags;
             datas.push(data);
@@ -403,6 +403,7 @@
                 text: node[_this.options.textName],
                 icon: node[_this.options.iconName],
                 tags: node[_this.options.tagsName],
+                checkable: node[_this.options.checkableName],
                 state: {
                     checked: node[_this.options.checkedName]
                 },
@@ -429,11 +430,12 @@
         iconName: 'icon',
         tagsName: 'tags',
         checkedName: 'checked',
+        checkableName: 'checkable',
         multiple: true, //多选
-        onlyLeafSelectable: false, //仅可选中叶子节点
         autoCheckChildNode: true,//选中节点时自动选中所有子节点
         autoCheckParentNode: true, //兄弟节点都被选中时，自动选中父节点
-        ignoreChildNode: true,//选中父节点时上报事件中忽略子节点
+        ignoreChildNode: true,//结果集如果包含父节点，忽略子节点
+        onlyLeafNodeResult: false,//结果集中仅包含叶子节点
         showIcon: true,//显示图标
         showTags: true,//显示标签
         levels: 2,//默认展开2层

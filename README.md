@@ -11,7 +11,7 @@ TreeSelect
 5. 支持使用`data-section`配置分级节点形式的数据，例如shiro的权限串
 6. 支持树形下拉框
 7. 支持搜索
-8. 支持仅叶子节点可选
+8. 支持配置节点是否可以选择
 ### Demo
 For demo, See <http://kangarooxin.github.io/treeSelect>
 
@@ -29,7 +29,7 @@ For demo, See <http://kangarooxin.github.io/treeSelect>
 ```javascript
 var data = [
     { id: 1, text: 'Node1', pid: 0, checked: true, icon:"glyphicon glyphicon-stop", tags: ['tag1','tag2']},
-    { id: 2, text: 'Node2', pid: 0 },
+    { id: 2, text: 'Node2', pid: 0, checkable: false},
     { id: 3, text: 'Node3', pid: 0 },
     { id: 4, text: 'Node11', pid: 1, checked: true },
     { id: 5, text: 'Node12', pid: 1, checked: true },
@@ -102,7 +102,7 @@ $('#selectTree4').treeSelect();
 ```
 ### Options:
 ```javascript
- $.fn.treeSelect.defaults = {
+$.fn.treeSelect.defaults = {
     data: [],
     flatData: true,//扁平json数据，使用pid指定父节点
     dropdown: false,//下拉选择框
@@ -119,11 +119,12 @@ $('#selectTree4').treeSelect();
     iconName: 'icon',
     tagsName: 'tags',
     checkedName: 'checked',
+    checkableName: 'checkable',
     multiple: true, //多选
-    onlyLeafSelectable: false, //仅可选中叶子节点
     autoCheckChildNode: true,//选中节点时自动选中所有子节点
     autoCheckParentNode: true, //兄弟节点都被选中时，自动选中父节点
-    ignoreChildNode: true,//选中父节点时上报事件中忽略子节点
+    ignoreChildNode: true,//结果集如果包含父节点，忽略子节点
+    onlyLeafNodeResult: false,//结果集中仅包含叶子节点
     showIcon: true,//显示图标
     showTags: true,//显示标签
     levels: 2,//默认展开2层

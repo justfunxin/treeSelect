@@ -36,7 +36,16 @@
     margin-bottom: 0;
 }
 
+.tree-select .tree-select-view {
+    border: 1px solid #ccc;
+}
+
 .dropdown-tree {
     display: inline-block;
     vertical-align: middle;
+}
+
+.dropdown-tree .tree-select .tree-select-view {
+    max-height: 200px;
+    overflow-y: auto;
 }

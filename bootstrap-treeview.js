@@ -56,7 +56,6 @@
 		showBorder: true,
 		showIcon: true,
 		showCheckbox: false,
-		onlyLeafSelectable: false,
 		showTags: false,
 		multiSelect: false,
 
@@ -571,7 +570,7 @@
 			// Add check / unchecked icon
 			if (_this.options.showCheckbox) {
 
-				if(!_this.options.onlyLeafSelectable || !node.nodes) {
+				if(node.checkable !== false) {
 					var classList = ['check-icon'];
 					if (node.state.checked) {
 						classList.push(_this.options.checkedIcon);
