@@ -34,6 +34,7 @@
 
 .tree-select.dropdown-menu .list-group {
     margin-bottom: 0;
+    white-space: nowrap;
 }
 
 .tree-select .tree-select-view {
